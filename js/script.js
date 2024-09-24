@@ -34,6 +34,9 @@ deleteBtn.addEventListener("click", (e) => {
   if (localStorage.getItem(localStorageKey)) {
     const deletedValue = localStorage.getItem(localStorageKey);
     localStorage.clear(localStorageKey);
+    if (document.querySelector("span")) {
+      document.querySelector("span").remove();
+    }
     alert(`Username ${deletedValue} has been removed.`);
   } else {
     alert("Localstorage is empty!");
@@ -43,15 +46,28 @@ deleteBtn.addEventListener("click", (e) => {
 // creo un contatore
 const sessionStorageKey = "time";
 
-let time = 0;
+let time = sessionStorage.getItem(sessionStorageKey) ? parseInt(sessionStorage.getItem(sessionStorageKey)) : 0;
 
 const timer = () => {
+  // mostro il tempo
+  const timerContainer = document.createElement("div");
+  timerContainer.classList.add("text-center");
+  timerContainer.classList.add("mt-5");
+  const span = document.createElement("span");
+  span.classList.add("fw-bold");
+  span.classList.add("bg-success");
+  span.classList.add("d-inline-block");
+  span.classList.add("p-3");
+  span.classList.add("rounded-circle");
+  span.classList.add("text-light");
+  timerContainer.appendChild(span);
+  //   incremento il contatore
   setInterval(function () {
     time++;
     sessionStorage.setItem(sessionStorageKey, time);
+    span.innerText = `${parseInt(sessionStorage.getItem(sessionStorageKey))}`;
+    form.after(timerContainer);
   }, 1000);
 };
 
-window.addEventListener("DOMContentLoaded", (e) => {
-  console.log(e);
-});
+timer();
